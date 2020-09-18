@@ -45,9 +45,9 @@ class ConnectFourGame(gym.Env):
         val = 1 if self.turn == "X" else 2
         self.board[open_spots - 1, action] = val
 
-        # Check for a winner
+        # Check for a winner or that every space is full
         self.winner = check_four_in_a_row(self.board)
-        if self.winner != 0:
+        if self.winner != 0 or self.is_draw():
             self.done = True
         else:
             # Update whose turn it is
@@ -87,5 +87,12 @@ class ConnectFourGame(gym.Env):
     def _observation(self):
         return self.board
 
+    def is_draw(self):
+        return len(self.get_valid_moves()) == 0 and check_four_in_a_row(self.board) == 0
+
     def _reward(self):
-        return 100.0 * (self.winner == 1) - 100.0 * (self.winner == 2)
+        return (
+            100.0 * (self.winner == 1)
+            - 100.0 * (self.winner == 2)
+            - 50.0 * (self.is_draw())
+        )

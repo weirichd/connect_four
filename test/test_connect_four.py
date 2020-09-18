@@ -353,3 +353,51 @@ def test_get_valid_moves_with_some_columns_full():
     actual = under_test.get_valid_moves()
 
     assert actual == expected
+
+
+def test_is_draw():
+    under_test = ConnectFourGame()
+    under_test.board = np.array(
+        [
+            [2, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [1, 2, 1, 1, 2, 1, 2],
+            [1, 2, 1, 1, 2, 1, 2],
+            [1, 2, 1, 1, 2, 1, 2],
+        ]
+    )
+
+    assert under_test.is_draw()
+
+
+def test_not_is_draw():
+    under_test = ConnectFourGame()
+    under_test.board = np.array(
+        [
+            [1, 0, 2, 0, 2, 0, 0],
+            [1, 0, 2, 0, 1, 0, 0],
+            [2, 0, 1, 0, 2, 0, 0],
+            [1, 0, 2, 0, 1, 0, 0],
+            [1, 0, 2, 0, 2, 0, 1],
+            [1, 0, 2, 0, 1, 1, 2],
+        ]
+    )
+
+    assert not under_test.is_draw()
+
+
+def test_not_is_draw_with_full_board_and_winnder():
+    under_test = ConnectFourGame()
+    under_test.board = np.array(
+        [
+            [2, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [1, 2, 1, 2, 2, 1, 2],
+            [1, 2, 1, 1, 2, 1, 1],
+            [1, 2, 1, 1, 2, 1, 2],
+        ]
+    )
+
+    assert not under_test.is_draw()
