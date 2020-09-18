@@ -11,6 +11,10 @@ Install the package using `pip install -e .` in the top level directory.
 
 * Play as the majestic hero `X` against the dastardly evil villain `O`.
 * Only the end of the game will give a reward.
+  * `X` wins gives `reward = 100.0`
+  * `O` wins gives `reward = -100.0`
+  * Draw gives `reward = -50.0`
+  * While the game is still going, `reward = 0.0`
 
 ## Using the environment
 
