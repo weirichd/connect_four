@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from connect_four.env import ConnectFourGame
-from connect_four.env.connect_four_env import check_four_in_a_row
+from connect_four.environment import ConnectFourGame
+from connect_four.environment.connect_four_env import check_four_in_a_row
 
 
 def test_step():
