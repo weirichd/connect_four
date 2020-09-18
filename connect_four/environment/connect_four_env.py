@@ -45,13 +45,13 @@ class ConnectFourGame(gym.Env):
         val = 1 if self.turn == "X" else 2
         self.board[open_spots - 1, action] = val
 
-        # Update whose turn it is
-        self.turn = "O" if self.turn == "X" else "X"
-
         # Check for a winner
         self.winner = check_four_in_a_row(self.board)
         if self.winner != 0:
             self.done = True
+        else:
+            # Update whose turn it is
+            self.turn = "O" if self.turn == "X" else "X"
 
         return self._observation(), self._reward(), self.done, {}
 
@@ -71,9 +71,9 @@ class ConnectFourGame(gym.Env):
         print(board_string)
         print()
         if not self.done:
-            print(f"It is {self.turn}'s turn")
+            print(f"It is Player {self.turn}'s turn")
         else:
-            print("Player {self.winner} won!")
+            print(f"Player {self.turn} won!")
 
     def reset(self):
         self.board = np.zeros((6, 7), dtype=np.int8)
