@@ -175,7 +175,7 @@ def test_check_four_in_a_row_diagonal_winner():
             [0, 1, 0, 0, 0, 0, 0],
             [0, 2, 1, 0, 0, 0, 0],
             [0, 2, 2, 1, 0, 0, 0],
-            [0, 2, 1, 2, 1, 0, 0],
+            [1, 2, 1, 2, 1, 0, 0],
         ]
     )
 
@@ -194,7 +194,7 @@ def test_check_four_in_a_row_off_diagonal_winner():
             [0, 0, 0, 0, 1, 0, 0],
             [0, 0, 0, 1, 2, 0, 0],
             [0, 0, 1, 2, 2, 0, 0],
-            [0, 1, 2, 2, 1, 0, 0],
+            [0, 1, 2, 2, 1, 1, 0],
         ]
     )
 
@@ -222,3 +222,104 @@ def test_check_four_in_a_row_player_two_wins():
     actual = check_four_in_a_row(board)
 
     assert actual == expected
+
+
+def test_step_return_values():
+    under_test = ConnectFourGame()
+
+    expected_observation = np.array(
+        [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0],
+        ]
+    )
+
+    expected_reward = 0.0
+    expected_done = False
+    expected_info = {}
+
+    observation, reward, done, info = under_test.step(0)
+
+    assert np.array_equal(observation, expected_observation)
+    assert expected_reward == reward
+    assert expected_done == done
+    assert expected_info == info
+
+
+def test_step_return_values_win():
+    under_test = ConnectFourGame()
+
+    under_test.board = np.array(
+        [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [2, 2, 2, 0, 0, 0, 0],
+            [1, 1, 1, 0, 0, 0, 0],
+        ]
+    )
+
+    expected_observation = np.array(
+        [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [2, 2, 2, 0, 0, 0, 0],
+            [1, 1, 1, 1, 0, 0, 0],
+        ]
+    )
+
+    expected_reward = 100.0
+    expected_done = True
+    expected_info = {}
+
+    observation, reward, done, info = under_test.step(3)
+
+    assert np.array_equal(observation, expected_observation)
+    assert expected_reward == reward
+    assert expected_done == done
+    assert expected_info == info
+
+
+def test_step_return_values_loss():
+    under_test = ConnectFourGame()
+
+    under_test.board = np.array(
+        [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [1, 2, 0, 0, 0, 0, 0],
+            [1, 2, 0, 0, 0, 0, 0],
+            [1, 2, 1, 0, 0, 0, 0],
+        ]
+    )
+    under_test.turn = "O"
+
+    expected_observation = np.array(
+        [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 0, 0, 0, 0, 0],
+            [1, 2, 0, 0, 0, 0, 0],
+            [1, 2, 0, 0, 0, 0, 0],
+            [1, 2, 1, 0, 0, 0, 0],
+        ]
+    )
+
+    expected_reward = -100.0
+    expected_done = True
+    expected_info = {}
+
+    observation, reward, done, info = under_test.step(1)
+
+    assert np.array_equal(observation, expected_observation)
+    assert expected_reward == reward
+    assert expected_done == done
+    assert expected_info == info
