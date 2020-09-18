@@ -81,6 +81,9 @@ class ConnectFourGame(gym.Env):
         self.done = False
         self.winner = 0
 
+    def get_valid_moves(self):
+        return [c for c in range(7) if (self.board[:, c] != 0).sum() < 6]
+
     def _observation(self):
         return self.board
 

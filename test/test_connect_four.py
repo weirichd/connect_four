@@ -323,3 +323,33 @@ def test_step_return_values_loss():
     assert expected_reward == reward
     assert expected_done == done
     assert expected_info == info
+
+
+def test_get_valid_moves():
+    under_test = ConnectFourGame()
+
+    expected = [0, 1, 2, 3, 4, 5, 6]
+
+    actual = under_test.get_valid_moves()
+
+    assert actual == expected
+
+
+def test_get_valid_moves_with_some_columns_full():
+    under_test = ConnectFourGame()
+    under_test.board = np.array(
+        [
+            [1, 0, 2, 0, 2, 0, 0],
+            [1, 0, 2, 0, 1, 0, 0],
+            [2, 0, 1, 0, 2, 0, 0],
+            [1, 0, 2, 0, 1, 0, 0],
+            [1, 0, 2, 0, 2, 0, 1],
+            [1, 0, 2, 0, 1, 1, 2],
+        ]
+    )
+
+    expected = [1, 3, 5, 6]
+
+    actual = under_test.get_valid_moves()
+
+    assert actual == expected
