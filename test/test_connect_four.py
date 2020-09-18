@@ -325,6 +325,44 @@ def test_step_return_values_loss():
     assert expected_info == info
 
 
+def test_step_return_values_draw():
+    under_test = ConnectFourGame()
+
+    under_test.board = np.array(
+        [
+            [0, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [1, 2, 1, 1, 2, 1, 2],
+            [1, 2, 1, 1, 2, 1, 1],
+            [1, 2, 1, 1, 2, 1, 2],
+        ]
+    )
+    under_test.turn = "O"
+
+    expected_observation = np.array(
+        [
+            [2, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [2, 1, 2, 2, 1, 2, 1],
+            [1, 2, 1, 1, 2, 1, 2],
+            [1, 2, 1, 1, 2, 1, 1],
+            [1, 2, 1, 1, 2, 1, 2],
+        ]
+    )
+
+    expected_reward = -50.0
+    expected_done = True
+    expected_info = {}
+
+    observation, reward, done, info = under_test.step(0)
+
+    assert np.array_equal(observation, expected_observation)
+    assert expected_reward == reward
+    assert expected_done == done
+    assert expected_info == info
+
+
 def test_get_valid_moves():
     under_test = ConnectFourGame()
 
@@ -387,7 +425,7 @@ def test_not_is_draw():
     assert not under_test.is_draw()
 
 
-def test_not_is_draw_with_full_board_and_winnder():
+def test_not_is_draw_with_full_board_and_winner():
     under_test = ConnectFourGame()
     under_test.board = np.array(
         [
